@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>slotGo</title>
+  <meta HTTP-EQUIV="pragma" CONTENT="no-cache">
+  <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, no-store, must-revalidate">
+  <meta HTTP-EQUIV="expires" CONTENT="0">
+  <meta name="apple-touch-fullscreen" content="yes"/>
+  <link rel="apple-touch-icon" sizes="57x57" href="img/icon57.png"/>
+  <link rel="apple-touch-icon" sizes="72x72" href="img/icon72.png"/>
+  <link rel="apple-touch-icon" sizes="114x114" href="img/icon114.png"/>
+  <link rel="apple-touch-icon" sizes="144x144" href="img/icon144.png"/>
+  <link href="img/page-icon.png" rel="shortcut icon"/>
+  <link rel="manifest" href="manifest.webmanifest">
+
+  <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="full-screen" content="yes"/>
+  <meta name="screen-orientation" content="portrait"/>
+  <meta name="x5-fullscreen" content="true"/>
+  <meta name="360-fullscreen" content="true"/>
+  
+  <meta name="renderer" content="webkit"/>
+  <meta name="force-rendering" content="webkit"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+  <link rel="stylesheet" type="text/css" href="style-desktop.81ede.css"/>
+  <link rel="icon" href="favicon.8de18.ico"/>
+</head>
+<body>
+<h1 class="header">SlotGame</h1>
+
+<div id="GameDiv" style="width:1280px; height: 720px;">
+  <canvas id="GameCanvas" width="1280" height="720"></canvas>
+  <div id="splash">
+    <div class="progress-bar stripes">
+      <span style="width: 0%"></span>
+    </div>
+  </div>
+</div>
+
+<p class="footer">Made with <a href="https://www.cocos.com/products#CocosCreator" title="cocos creator">Cocos Creator</a></p>
+
+<script src="src/settings.754c7.js" charset="utf-8"></script>
+<script src="main.d6ac7.js" charset="utf-8"></script>
+
+<script type="text/javascript">
+window.bootGame = function () {
+    // open web debugger console
+    if (typeof VConsole !== 'undefined') {
+        window.vConsole = new VConsole();
+    }
+
+    var debug = window._CCSettings.debug;
+    var splash = document.getElementById('splash');
+    splash.style.display = 'block';
+
+    function loadScript (moduleName, cb) {
+      function scriptLoaded () {
+          document.body.removeChild(domScript);
+          domScript.removeEventListener('load', scriptLoaded, false);
+          cb && cb();
+      };
+      var domScript = document.createElement('script');
+      domScript.async = true;
+      domScript.src = moduleName;
+      domScript.addEventListener('load', scriptLoaded, false);
+      document.body.appendChild(domScript);
+    }
+
+    loadScript(debug ? 'cocos2d-js.js' : 'cocos2d-js-min.3bd68.js', function () {
+      if (CC_PHYSICS_BUILTIN || CC_PHYSICS_CANNON) {
+        loadScript(debug ? 'physics.js' : 'physics-min.js', window.boot);
+      }
+      else {
+        window.boot();
+      }
+    });
+};
+</script>
+
+<script type="text/javascript">
+var initBundles = ["Common"];
+var allBundles = {"internal":"d0832","CandySagaSlots":"a046f","Common":"1d32e","CrazyFootball":"d7902","Cricket":"b5efa","FreeSpins":"f54dc","FruitSolt":"1f331","FruitSuperSlots":"88547","GaneshSolt":"c5c1b","HallScene":"912a6","LightningRoulette":"947ae","LoginScene":"7918e","LuckyBall":"dabd9","LuckyGoal":"26166","Ludo":"ea9ea","Pubg":"c4c4b","resources":"36922","SambaFeverSlots":"a3516","ScratchTicket":"651a4","Slots":"abf82","Smokin777":"114d2","SoccerLottery":"e8fee","Turntable":"ad8f9","hallResIcon":"a1b81","main":"81e77"};
+var swPath = "/game/slots/web-desktop/sw.js";
+</script>
+<script type="text/javascript">
+const splash=document.getElementById("splash");const progressBar=splash.querySelector(".progress-bar span");var hasBoot=false;const sw_start=function(){progressBar.style.width="0%";const t=function(e,n){var t=100*e/n;if(progressBar){progressBar.style.width=t.toFixed(2)+"%"}};window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();window.deferredPromp=e});if(navigator.serviceWorker){const r={};const s=function(){var e=0;for(var n in r){if(initBundles.indexOf(n)>=0){e+=r[n]}}t(e,initBundles.length);if(e==initBundles.length){if(!hasBoot){hasBoot=true;window.bootGame()}}};function a(e){console.log("sw activated",e);window.installBundle=function(e){navigator.serviceWorker.controller.postMessage({what:"installBundle",bundle:e,version:allBundles[e]})};window.cleanBundle=function(e){navigator.serviceWorker.controller.postMessage({what:"cleanBundle",bundle:e,version:allBundles[e]})};window.cleanAllBundles=function(){navigator.serviceWorker.controller.postMessage({what:"cleanAllBundle"})};for(const n of initBundles){window.installBundle(n)}s();navigator.serviceWorker.controller.postMessage({what:"cleanBundles",bundles:allBundles})}function o(){navigator.serviceWorker.getRegistration().then(e=>{e.waiting.postMessage({what:"skipWaiting"})}).catch(e=>{window.location.reload()})}var l=false;navigator.serviceWorker.register(swPath).then(function(e){navigator.serviceWorker.onmessage=function(e){if(e.data.what==="installProgress"){if(!r[e.data.bundle]||e.data.percent-r[e.data.bundle]>=.01||e.data.percent===.5||e.data.percent===1){r[e.data.bundle]=Math.floor(e.data.percent*100)/100;if(r[e.data.bundle]==Math.floor(r[e.data.bundle]*10)/10){console.log(`[${e.data.bundle}] install progress`,r[e.data.bundle])}}if(e.data.percent===1){window.localStorage.removeItem(e.data.bundle);window.localStorage.setItem(e.data.bundle,allBundles[e.data.bundle]);window.cleanBundle(e.data.bundle)}if(window.onBundleInstallProgress){window.onBundleInstallProgress(e.data.bundle,e.data.percent)}if(initBundles.indexOf(e.data.bundle)>=0){s()}}else if(e.data.what==="installError"){window.localStorage.removeItem(e.data.bundle);if(window.onBundleInstallError){window.onBundleInstallError(e.data.bundle,e.data.error)}}else if(e.data.what==="onCleanBundle"){window.localStorage.removeItem(e.data.bundle)}else if(e.data.what==="cleanFinish"){console.log("onmessage","cleanFinish");if(window.onBundlesCleanFinish){window.onBundlesCleanFinish()}}};navigator.serviceWorker.oncontrollerchange=function(){console.log("controller change");if(l){return}l=true;console.log("reload...");window.location.reload()};if(e.waiting){if(o()){return}}e.onupdatefound=function(){const n=e.installing;console.log("onupdatefound",n.state);n.onstatechange=function(e){console.log("installingWorker statechange",e.target.state);switch(n.state){case"installed":if(navigator.serviceWorker.controller){o()}break;case"redundant":}}};var n=navigator.serviceWorker.controller;if(n){console.log("controller state",n.state);a("activated controller");n.onstatechange=function(e){console.log("controller statechange",e.target.state)}}else{var t;if(e.installing){t=e.installing}else if(e.waiting){t=e.waiting}else if(e.active){t=e.active}if(t){console.log("serviceWorker",t.state);if(t.state==="activated"){a("activated serviceWorker exsits")}else{t.onstatechange=function(e){console.log("serviceWorker statechange to",e.target.state);if(e.target.state==="activated"){a("serviceWorker activated")}}}}}}).catch(function(e){console.error("SW Register error",e);window.bootGame()})}else{window.bootGame()}};sw_start();
+</script>
+
+</body>
+</html>
